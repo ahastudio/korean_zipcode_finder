@@ -1,12 +1,12 @@
-<div class="korean_zipcode_finder_modal_wrapper">
-	<div class="zipcode_box modal">
+<div class="korean_zipcode_finder_modal_wrapper modal-dialog modal-md">
+	<div class="zipcode_box modal-content">
 		<div class="modal-header">
 			<button class="close_modal_popup close" data-dismiss="modal" type="button">×</button>
 			<h3>우편번호 찾기</h3>
-			<%= form_tag("/korean_zipcode_finder/zipcodes/search", :method => 'get', :class => "find_zipcode_form well form-inline") do %>
-			  <%= label_tag "동/읍/면" %>
-			  <%= text_field_tag "dong" %>
-			  <%= submit_tag '우편번호 찾기', :class => "btn btn-primary find_zipcode_submit" %>
+			<%= form_tag "/korean_zipcode_finder/zipcodes/search", method: :get, class: "find_zipcode_form well form-inline" do -%>
+				<%= label_tag :dong, "동/읍/면" %>
+				<%= text_field_tag :dong %>
+				<button type="submit" class="btn btn-primary find_zipcode_submit">우편번호 찾기</button>
 			<% end %>
 		</div>
 
@@ -16,10 +16,10 @@
 					<%#= 'place for search list' %>
 				</tbody>
 			</table>
-	 </div>
+		</div>
 
-	 <div class="modal-footer">
-	 	<a class="btn close_modal_popup" data-dismiss="modal" href="#">닫기</a>
-	 </div>
+		<div class="modal-footer">
+			<a class="btn close_modal_popup" data-dismiss="modal" href="#">닫기</a>
+		</div>
 	</div>
 </div>
