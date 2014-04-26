@@ -6,26 +6,27 @@ require 'engine' if defined?(Rails)
 
 require 'net/http'
 require 'open-uri'
-require 'iconv'
 require 'nokogiri'
 
 
 module KoreanZipcodeFinder
   extend Configuration
   Struct.new("KoreanZipcodeFinder", "zipcode", "zipcode_01", "zipcode_02", "address", "original_address")
-  
-  def self.find_zipcode(dong_name)
-    keyword = Iconv.new("euc-kr", "utf-8//IGNORE").iconv(dong_name.strip)
 
-    response = Net::HTTP.post_form URI.parse(Configuration::URL), {'regkey' => api_key, 'target' => 'post', 'query' => keyword}
-    nodes = Nokogiri::XML(response.body).css("item")
+  def self.find_zipcode(dong_name)
+    keyword = dong_name.strip
+
+    uri = URI(Configuration::URL)
+    uri.query = URI.encode_www_form(q: keyword)
+    response = Net::HTTP.get_response(uri)
+    nodes = JSON.parse(response.body)['results']
 
     nodes.map do |node|
-      original_address = node.css("address").text
+      original_address = node['address'].to_s
       address = original_address.strip.sub(/\s(산|)(\d+)(~?)(\d+)(동|)\z/, "").sub(/\s(\d+)(-?)\((\d+)(~?)(\d+)\)\z/, "")
-      zipcode = node.css("postcd").text
-      zipcode_01 = zipcode[0..2]
-      zipcode_02 = zipcode[-3..-1]
+      zipcode = node['code6'].to_s
+      zipcode_01 = zipcode[0,3]
+      zipcode_02 = zipcode[-3,3]
 
       Struct::KoreanZipcodeFinder.new(zipcode, zipcode_01, zipcode_02, address, original_address)
     end

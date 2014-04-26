@@ -2,10 +2,10 @@
 
 module KoreanZipcodeFinder
   module Configuration
-    URL = "http://biz.epost.go.kr/KpostPortal/openapi"
-    
+    URL = "http://api.poesis.kr/post/search.php?v=1.1"
+
     attr_accessor :api_key
-    
+
     def configure
       yield self
     end

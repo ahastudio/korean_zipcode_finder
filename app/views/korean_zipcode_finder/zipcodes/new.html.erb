@@ -4,7 +4,7 @@
 			<button class="close_modal_popup close" data-dismiss="modal" type="button">×</button>
 			<h3>우편번호 찾기</h3>
 			<%= form_tag "/korean_zipcode_finder/zipcodes/search", method: :get, class: "find_zipcode_form well form-inline" do -%>
-				<%= label_tag :dong, "동/읍/면" %>
+				<%= label_tag :dong, "도로명" %>
 				<%= text_field_tag :dong %>
 				<button type="submit" class="btn btn-primary find_zipcode_submit">우편번호 찾기</button>
 			<% end %>
